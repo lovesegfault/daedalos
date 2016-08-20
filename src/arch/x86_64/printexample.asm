@@ -1,4 +1,4 @@
-global long_mode_start
+global printexample
 
 section .text
 bits 64
