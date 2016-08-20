@@ -1,4 +1,6 @@
 global long_mode_start
+extern kernel_main
+
 
 section .text
 bits 64
@@ -7,4 +9,3 @@ bits 64
         call kernel_main
         cli
         hlt
-        
