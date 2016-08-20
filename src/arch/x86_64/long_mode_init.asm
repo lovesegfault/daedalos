@@ -10,7 +10,7 @@ loop:
     lodsb
     test al,al
     je end
-    stosb
+    stosw
     jmp loop
 end:
     hlt
