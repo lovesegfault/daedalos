@@ -7,10 +7,10 @@ long_mode_start:
     mov rsi, msg
     mov rdi, VGA_BUFFER
 loop:
-    lodsq
-    cmp rax, 0
+    lodsb
+    test al,al
     je end
-    stosq
+    stosb
     jmp loop
 end:
     hlt
