@@ -68,13 +68,30 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) {
 	terminal_buffer[index] = make_vgaentry(c, color);
 }
 
+void terminal_scroll(){
+    for(size_t height_c = 0; height_c < VGA_HEIGHT; height_c++){
+        for (size_t width_c = 0; width_c < VGA_WIDTH; width_c++){
+            terminal_buffer[height_c * VGA_WIDTH + width_c] = terminal_buffer[(height_c + 1) * VGA_WIDTH + width_c];
+        }
+    }
+}
+
 void terminal_putchar(char c) {
-	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+	if (c == '\n')
+    {
+        terminal_column = 0;
+        if(++terminal_row == VGA_HEIGHT) {
+            terminal_scroll();
+        }
+    }
+    else {
+        terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+    }
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
 		if (++terminal_row == VGA_HEIGHT) {
-			terminal_row = 0;
-		}
+            terminal_scroll();
+        }
 	}
 }
 
@@ -87,9 +104,8 @@ void kernel_main() {
 	/* Initialize terminal interface */
 	terminal_initialize();
 
-	/* Since there is no support for newlines in terminal_putchar
-         * yet, '\n' will produce some VGA specific character instead.
-         * This is normal.
-         */
-	terminal_writestring("Hello, kernel World!\n");
+    for (char x = 'A'; x <= 'z'; x++) {
+        char str[3] = {x, '\n','\0'};
+        terminal_writestring(&str);
+    }
 }
