@@ -106,6 +106,6 @@ void kernel_main() {
 
     for (char x = 'A'; x <= 'z'; x++) {
         char str[3] = {x, '\n','\0'};
-        terminal_writestring(&str);
+        terminal_writestring(str);
     }
 }
