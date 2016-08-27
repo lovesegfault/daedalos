@@ -63,11 +63,15 @@ parser.add_argument('--run', action="store_true",
                     help="Invokes QEMU and runs the project.")
 parser.add_argument('--clean', action="store_true",
                     help="Deletes compiled files")
+parser.add_argument('--full', action="store_true", help="Build and runs")
 args = parser.parse_args()
 
-if args.build:
+if args.clean:
+    clean()
+elif args.full:
+    build()
+    run()
+elif args.build:
     build()
 elif args.run:
     run()
-elif args.clean:
-    clean()

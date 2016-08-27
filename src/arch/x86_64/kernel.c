@@ -69,9 +69,11 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) {
 }
 
 void terminal_scroll(){
-    for(size_t height_c = 0; height_c < VGA_HEIGHT; height_c++){
+    for(size_t height_c = 0; height_c < VGA_HEIGHT - 1; height_c++){
         for (size_t width_c = 0; width_c < VGA_WIDTH; width_c++){
-            terminal_buffer[height_c * VGA_WIDTH + width_c] = terminal_buffer[(height_c + 1) * VGA_WIDTH + width_c];
+			size_t to = height_c * VGA_WIDTH + width_c;
+			size_t from = (height_c + 1) * VGA_WIDTH + width_c;
+            terminal_buffer[to] = terminal_buffer[from];
         }
     }
 }
@@ -103,9 +105,12 @@ void terminal_writestring(const char* data) {
 void kernel_main() {
 	/* Initialize terminal interface */
 	terminal_initialize();
-
-    for (char x = 'A'; x <= 'z'; x++) {
-        char str[3] = {x, '\n','\0'};
-        terminal_writestring(str);
-    }
+	for (int i = 0; i <= 2; i++)
+	{
+	for(char z = 'A'; z<='z'; z++)
+	{
+		char foo[] = {z,'\n','\0'};
+		terminal_writestring(foo);
+	}
+}
 }
