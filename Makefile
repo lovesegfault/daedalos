@@ -26,7 +26,7 @@ endif
 
 $(shell mkdir -p $(BUILD_DIR))
 
-.PHONY: all clean run iso v
+.PHONY: all clean run iso
 
 all: $(KERNEL)
 
