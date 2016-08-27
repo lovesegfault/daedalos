@@ -1,36 +1,51 @@
-arch ?= x86_64
-kernel := build/kernel-$(arch).bin
-iso := build/os-$(arch).iso
+NAME := DaedalOS
+ARCH := x86_64
 
-linker_script := src/arch/$(arch)/linker.ld
-grub_cfg := src/arch/$(arch)/grub.cfg
-assembly_source_files := $(wildcard src/arch/$(arch)/*.asm)
-assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
-	build/arch/$(arch)/%.o, $(assembly_source_files))
+SRC_DIR := ./src/arch/$(ARCH)
+BUILD_DIR := ./build/arch/$(ARCH)
+
+KERNEL := $(BUILD_DIR)/$(NAME)-$(ARCH).bin
+ISO := $(BUILD_DIR)/$(NAME)-$(ARCH).iso
+
+CFLAGS := -std=c11 -ffreestanding -O2 -Wall -Werror
+GRUB_CFG := $(SRC_DIR)/grub.cfg
+
+OBJ :=
+V ?= @
+
+ifeq ($(ARCH), x86_64)
+QEMU := qemu-system-x86_64
+TARGET := x86_64
+AS := nasm
+ASFLAGS := -felf64
+CC := gcc
+GRUB_MKRESCUE := grub-mkrescue
+VB := virtualbox
+endif
 
 .PHONY: all clean run iso
 
-all: $(kernel)
+all: $(KERNEL)
+
+$(KERNEL): src/arch/$(ARCH)/linker.ld $(OBJ)
+	$(V)ld -n -T $(SRC_DIR)/linker.ld $(OBJ) -o $@
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	$(V)$(CC) -c $(CFLAGS) -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.asm
+	$(V)$(AS) $(ASFLAGS) -o $@ $^
 
 clean:
-	@rm -r build
+	$(V)rm -rf ./build
 
-run: $(iso)
-	@qemu-system-x86_64 -cdrom $(iso)
+iso: $(ISO)
+$(ISO): $(KERNEL) $(GRUB_CFG)
+	$(V)mkdir -p $(BUILD_DIR)/iso/boot/grub
+	$(V)cp $(GRUB_CFG) $(BUILD_DIR)/iso/boot/grub
+	$(V)cp $(KERNEL) $(BUILD_DIR)/iso/boot/kernel.bin
+	$(V)$(GRUB_MKRESCUE) -o $(ISO) $(BUILD_DIR)/iso
+	$(V)rm -rf $(BUILD_DIR)/iso
 
-iso: $(iso)
-
-$(iso): $(kernel) $(grub_cfg)
-	@mkdir -p build/isofiles/boot/grub
-	@cp $(kernel) build/isofiles/boot/kernel.bin
-	@cp $(grub_cfg) build/isofiles/boot/grub
-	@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
-	@rm -r build/isofiles
-
-$(kernel): $(assembly_object_files) $(linker_script)
-	@ld -n -T $(linker_script) -o $(kernel) $(assembly_object_files)
-
-# compile assembly files
-build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
-	@mkdir -p $(shell dirname $@)
-	@nasm -felf64 $< -o $@
+run: $(ISO)
+	$(V)$(QEMU) -cdrom $@
