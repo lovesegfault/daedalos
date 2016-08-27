@@ -23,12 +23,15 @@ GRUB_MKRESCUE := grub-mkrescue
 VB := virtualbox
 endif
 
+$(shell mkdir -p $(BUILD_DIR))
+
 .PHONY: all clean run iso
 
 all: $(KERNEL)
 
-$(KERNEL): src/arch/$(ARCH)/linker.ld $(OBJ)
-	$(V)ld -n -T $(SRC_DIR)/linker.ld $(OBJ) -o $@
+
+$(KERNEL): src/arch/$(ARCH)/linker.ld
+	$(V)ld -n -T $(SRC_DIR)/linker.ld $^ -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(V)$(CC) -c $(CFLAGS) -o $@ $^
