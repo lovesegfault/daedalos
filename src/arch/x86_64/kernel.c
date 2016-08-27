@@ -42,8 +42,8 @@ size_t strlen(const char *str) {
 static const size_t VGA_WIDTH  = 80;
 static const size_t VGA_HEIGHT = 25;
 
-size_t    terminal_row;
-size_t    terminal_column;
+size_t terminal_row;
+size_t terminal_column;
 uint8_t   terminal_color;
 uint16_t *terminal_buffer;
 
@@ -79,6 +79,14 @@ void terminal_scroll() {
       terminal_buffer[to] = terminal_buffer[from];
     }
   }
+  int16_t clear = make_vgaentry(' ', terminal_color);
+
+  for (size_t count = 0; count < VGA_WIDTH; count++)
+  {
+    terminal_buffer[count + VGA_WIDTH * (VGA_HEIGHT - 1)] = clear;
+  }
+  terminal_row    = VGA_HEIGHT - 1;
+  terminal_column = 0;
 }
 
 void terminal_putchar(char c) {
