@@ -1,4 +1,4 @@
-<img src=http://i.imgur.com/rX08oeR.jpg alt="DaedalOS" style="width: 200px;float:right;"/>
+<img src=http://i.imgur.com/rX08oeR.jpg width=400>
 
 DaedalOS
 =========
