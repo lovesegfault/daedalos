@@ -1,0 +1,3 @@
+This is a list of people who have helped throughout this project, and without
+whom it wouldn't be here at all. Most of them come from
+OSDev(http://wiki.osdev.org/), 

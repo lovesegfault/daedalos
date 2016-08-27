@@ -5,7 +5,7 @@ SRC_DIR   = ./src/arch/$(ARCH)
 BUILD_DIR = ./build/arch/$(ARCH)
 KERNEL    = $(BUILD_DIR)/$(NAME)-$(ARCH).bin
 ISO       = $(BUILD_DIR)/$(NAME)-$(ARCH).iso
-CFLAGS    = -std=c11 -ffreestanding -mno-red-zone -O2 -Wall -Werror
+CFLAGS    = -std=c11 -ffreestanding -mno-red-zone 	-O2 -Wall -Werror
 GRUB_CFG  = $(SRC_DIR)/grub.cfg
 ASM_SRC   = $(wildcard $(SRC_DIR)/*.asm)
 ASM_OBJ   = $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC))
@@ -21,11 +21,12 @@ ASFLAGS       = -felf64
 CC            = gcc
 GRUB_MKRESCUE = grub-mkrescue
 VB            = virtualbox
+VBM           = VBoxManage
 endif
 
 $(shell mkdir -p $(BUILD_DIR))
 
-.PHONY: all clean run iso
+.PHONY: all clean run iso v
 
 all: $(KERNEL)
 
@@ -52,3 +53,17 @@ $(ISO): $(KERNEL) $(GRUB_CFG)
 
 run: $(ISO)
 	$(V)$(QEMU) -cdrom $<
+run-vb: $(ISO)
+	$(V)$(VBM) unregistervm $(NAME) --delete
+	$(V)$(VBM)  createvm --name $(NAME) --register
+	$(V)$(VBM)  modifyvm $(NAME) --memory 2048
+	$(V)$(VBM)  modifyvm $(NAME) --vram 128
+	$(V)$(VBM)  modifyvm $(NAME) --nic1 nat
+	$(V)$(VBM)  modifyvm $(NAME) --nictype1 82540EM
+	$(V)$(VBM)  modifyvm $(NAME) --nictrace1 on
+	$(V)$(VBM)  modifyvm $(NAME) --nictracefile1 $(BUILD_DIR)/network.pcap
+	$(V)$(VBM)  modifyvm $(NAME) --uart1 0x3F8 4
+	$(V)$(VBM)  modifyvm $(NAME) --uartmode1 file $(BUILD_DIR)/vb-serial.log
+	$(V)$(VBM)  storagectl $(NAME) --name "IDE Controller" --add ide
+	$(V)$(VBM)  storageattach $(NAME) --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $(ISO)
+	$(V)$(VB) --startvm $(NAME) --dbg
