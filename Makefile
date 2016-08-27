@@ -1,8 +1,8 @@
 NAME = DaedalOS
 ARCH = x86_64
 
-SRC_DIR   = ./src/arch/$(ARCH)
-BUILD_DIR = ./build/arch/$(ARCH)
+SRC_DIR   = ./kernel/$(ARCH)
+BUILD_DIR = ./build/$(ARCH)
 KERNEL    = $(BUILD_DIR)/$(NAME)-$(ARCH).bin
 ISO       = $(BUILD_DIR)/$(NAME)-$(ARCH).iso
 CFLAGS    = -std=c11 -ffreestanding -mno-red-zone 	-O2 -Wall -Werror
