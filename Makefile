@@ -10,7 +10,10 @@ ISO := $(BUILD_DIR)/$(NAME)-$(ARCH).iso
 CFLAGS := -std=c11 -ffreestanding -O2 -Wall -Werror
 GRUB_CFG := $(SRC_DIR)/grub.cfg
 
-OBJ :=
+ASM_SRC := $(wildcard $(SRC_DIR)/*.asm)
+ASM_OBJ := $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC))
+C_SRC := $(wildcard $(SRC_DIR)/*.c)
+C_OBJ := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SRC))
 V ?= @
 
 ifeq ($(ARCH), x86_64)
@@ -30,8 +33,8 @@ $(shell mkdir -p $(BUILD_DIR))
 all: $(KERNEL)
 
 
-$(KERNEL): src/arch/$(ARCH)/linker.ld
-	$(V)ld -n -T $(SRC_DIR)/linker.ld $^ -o $@
+$(KERNEL): $(SRC_DIR)/linker.ld $(C_OBJ) $(ASM_OBJ)
+	$(V)ld -n -T $^ -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(V)$(CC) -c $(CFLAGS) -o $@ $^
@@ -51,4 +54,4 @@ $(ISO): $(KERNEL) $(GRUB_CFG)
 	$(V)rm -rf $(BUILD_DIR)/iso
 
 run: $(ISO)
-	$(V)$(QEMU) -cdrom $@
+	$(V)$(QEMU) -cdrom $<
