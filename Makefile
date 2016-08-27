@@ -1,29 +1,26 @@
-NAME := DaedalOS
-ARCH := x86_64
+NAME = DaedalOS
+ARCH = x86_64
 
-SRC_DIR := ./src/arch/$(ARCH)
-BUILD_DIR := ./build/arch/$(ARCH)
-
-KERNEL := $(BUILD_DIR)/$(NAME)-$(ARCH).bin
-ISO := $(BUILD_DIR)/$(NAME)-$(ARCH).iso
-
-CFLAGS := -std=c11 -ffreestanding -O2 -Wall -Werror
-GRUB_CFG := $(SRC_DIR)/grub.cfg
-
-ASM_SRC := $(wildcard $(SRC_DIR)/*.asm)
-ASM_OBJ := $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC))
-C_SRC := $(wildcard $(SRC_DIR)/*.c)
-C_OBJ := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SRC))
-V ?= @
+SRC_DIR   = ./src/arch/$(ARCH)
+BUILD_DIR = ./build/arch/$(ARCH)
+KERNEL    = $(BUILD_DIR)/$(NAME)-$(ARCH).bin
+ISO       = $(BUILD_DIR)/$(NAME)-$(ARCH).iso
+CFLAGS    = -std=c11 -ffreestanding -O2 -Wall -Werror
+GRUB_CFG  = $(SRC_DIR)/grub.cfg
+ASM_SRC   = $(wildcard $(SRC_DIR)/*.asm)
+ASM_OBJ   = $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC))
+C_SRC     = $(wildcard $(SRC_DIR)/*.c)
+C_OBJ     = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SRC))
+V        ?= @
 
 ifeq ($(ARCH), x86_64)
-QEMU := qemu-system-x86_64
-TARGET := x86_64
-AS := nasm
-ASFLAGS := -felf64
-CC := gcc
-GRUB_MKRESCUE := grub-mkrescue
-VB := virtualbox
+QEMU          = qemu-system-x86_64
+TARGET        = x86_64
+AS            = nasm
+ASFLAGS       = -felf64
+CC            = gcc
+GRUB_MKRESCUE = grub-mkrescue
+VB            = virtualbox
 endif
 
 $(shell mkdir -p $(BUILD_DIR))
