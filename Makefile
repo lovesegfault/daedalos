@@ -54,7 +54,7 @@ $(ISO): $(KERNEL) $(GRUB_CFG)
 run: $(ISO)
 	$(V)$(QEMU) -cdrom $<
 run-vb: $(ISO)
-	$(V)$(VBM) unregistervm $(NAME) --delete
+	$(V)$(VBM)  unregistervm $(NAME) --delete || true
 	$(V)$(VBM)  createvm --name $(NAME) --register
 	$(V)$(VBM)  modifyvm $(NAME) --memory 2048
 	$(V)$(VBM)  modifyvm $(NAME) --vram 128
