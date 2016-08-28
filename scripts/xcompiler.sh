@@ -3,7 +3,7 @@
 ARCH=x86_64-elf
 PREFIX=$(pwd)/xcompiler/$ARCH
 PATH=$PATH:$PREFIX/bin
-CFLAGS="-g -O2"
+export CFLAGS="-g -O2"
 CCOUNT=$(nproc --all)
 
 BINUTILS="binutils-2.27"
