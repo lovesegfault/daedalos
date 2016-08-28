@@ -10,7 +10,7 @@ graphical applications. This project is aimed at the x86_64 architecture.
 ## Resources
 
 This is a list of tutorials, articles, manuals and so on that have been used as
-reference during the development of this.
+reference during the development of this project.
 
 -   [Writing an OS in Rust][rust]
 -   [Bare Bones Tutorial][barebones]
