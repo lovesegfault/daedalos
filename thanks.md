@@ -5,9 +5,10 @@ whom it probably wouldn't be here at all. Most of them come from
 [OSDev][osdev], an amazing community dedicated to OS development.
 In no particular order:
 
--   Ian 'radens' Kronquist
--   Jonas 'sortie' Termansen
+-   [Ian 'radens' Kronquist](https://github.com/iankronquist)
+-   [Jonas 'sortie' Termansen](http://maxsi.org/)
 -   Lowl3v3l
+-   [SirPython](SirPython)
 
 To each and every one of you: Thanks!
 
