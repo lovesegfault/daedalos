@@ -1,14 +1,7 @@
-
-# Created by https://www.gitignore.io/api/assembler,c++,c
-
 ### Assembler ###
 *.[sS]
 *.bc
 
-
-### C++ ###
-# Prerequisites
-*.d
 
 # Compiled Object files
 *.slo
@@ -16,18 +9,10 @@
 *.o
 *.obj
 
-# Precompiled Headers
-*.gch
-*.pch
-
 # Compiled Dynamic libraries
 *.so
 *.dylib
 *.dll
-
-# Fortran module files
-*.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -39,7 +24,6 @@
 *.exe
 *.out
 *.app
-
 
 ### C ###
 # Prerequisites
