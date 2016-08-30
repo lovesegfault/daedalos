@@ -18,7 +18,8 @@ QEMU          = qemu-system-x86_64
 TARGET        = x86_64
 AS            = nasm
 ASFLAGS       = -felf64
-CC            = gcc
+CC            = x86_64-elf-gcc
+LDFLAGS       = -ffreestanding -O2 -nostdlib
 GRUB_MKRESCUE = grub-mkrescue
 VB            = virtualbox
 VBM           = VBoxManage
@@ -32,7 +33,7 @@ all: $(KERNEL)
 
 
 $(KERNEL): $(SRC_DIR)/linker.ld $(C_OBJ) $(ASM_OBJ)
-	$(V)ld -n -T $^ -o $@
+	$(V)$(CC) $(LDFLAGS) -T $(SRC_DIR)/linker.ld $(C_OBJ) $(ASM_OBJ) -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(V)$(CC) -c $(CFLAGS) -o $@ $^
