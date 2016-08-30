@@ -5,7 +5,6 @@ SRC_DIR   = ./kernel/$(ARCH)
 BUILD_DIR = ./build/$(ARCH)
 KERNEL    = $(BUILD_DIR)/$(NAME)-$(ARCH).bin
 ISO       = $(BUILD_DIR)/$(NAME)-$(ARCH).iso
-CFLAGS    = -std=c11 -ffreestanding -mno-red-zone 	-O2 -Wall -Werror
 GRUB_CFG  = $(SRC_DIR)/grub.cfg
 ASM_SRC   = $(wildcard $(SRC_DIR)/*.asm)
 ASM_OBJ   = $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC))
@@ -19,7 +18,8 @@ TARGET        = x86_64
 AS            = nasm
 ASFLAGS       = -felf64
 CC            = x86_64-elf-gcc
-LDFLAGS       = -ffreestanding -O2 -nostdlib
+CFLAGS    = -std=c11 -nostartfiles -ffreestanding -mno-red-zone -O2 -Wall -Wextra -Wpedantic
+LDFLAGS       = -nostdlib -z max-page-size=0x1000 -lgcc
 GRUB_MKRESCUE = grub-mkrescue
 VB            = virtualbox
 VBM           = VBoxManage
