@@ -18,7 +18,8 @@ TARGET        = x86_64
 AS            = nasm
 ASFLAGS       = -felf64
 CC            = x86_64-elf-gcc
-CFLAGS    = -std=c11 -nostartfiles -ffreestanding -mno-red-zone -O2 -Wall -Wextra -Wpedantic
+CFLAGS        = -std=c11 -ffreestanding -mno-red-zone -O2 -Wall -Wextra \
+				-Wpedantic
 LDFLAGS       = -nostdlib -z max-page-size=0x1000 -lgcc
 GRUB_MKRESCUE = grub-mkrescue
 VB            = virtualbox
