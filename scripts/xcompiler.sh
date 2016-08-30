@@ -2,7 +2,7 @@
 
 ARCH=x86_64-elf
 PREFIX=$(pwd)/xcompiler/$ARCH
-PATH=$PATH:$PREFIX/bin
+export PATH=$PATH:$PREFIX/bin
 export CFLAGS="-g -O2"
 CCOUNT=$(nproc --all)
 
@@ -62,5 +62,10 @@ make all-target-libgcc -j$CCOUNT
 make install-gcc
 make install-target-libgcc
 cd - || exit
+
+if [ $SHELL == "/usr/bin/fish" ];then
+	echo "It seems like you're using fish. To add the binaries to your PATH run"
+	echo 'set -gx PATH $PATH' $PREFIX/bin
+fi
 
 echo 'Done'
