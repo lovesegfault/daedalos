@@ -1,5 +1,6 @@
 section .multiboot_header
 header_start:
+align 4
     dd 0xe85250d6                ; magic number (multiboot 2)
     dd 0                         ; architecture 0 (protected mode i386)
     dd header_end - header_start ; header length
