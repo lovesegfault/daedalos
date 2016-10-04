@@ -1,15 +1,21 @@
 NAME = DaedalOS
 ARCH = x86_64
+SHELL := /bin/bash
+PATH := $(PATH):$(shell pwd)/xcompiler/$(ARCH)-elf/bin/
 
-SRC_DIR   = ./kernel/$(ARCH)
+KER_SRC   = ./kernel
+ARCH_SRC  = $(KER_SRC)/arch/$(ARCH)
+ASM_SRC   = $(wildcard $(ARCH_SRC)/*.asm)
+C_SRC     = $(wildcard $(ARCH_SRC)/*.c)
+
 BUILD_DIR = ./build/$(ARCH)
+
+ASM_OBJ   = $(patsubst $(ARCH_SRC)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC))
+C_OBJ     = $(patsubst $(ARCH_SRC)/%.c, $(BUILD_DIR)/%.o, $(C_SRC))
 KERNEL    = $(BUILD_DIR)/$(NAME)-$(ARCH).bin
+GRUB_CFG  = $(KER_SRC)/grub.cfg
 ISO       = $(BUILD_DIR)/$(NAME)-$(ARCH).iso
-GRUB_CFG  = $(SRC_DIR)/grub.cfg
-ASM_SRC   = $(wildcard $(SRC_DIR)/*.asm)
-ASM_OBJ   = $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC))
-C_SRC     = $(wildcard $(SRC_DIR)/*.c)
-C_OBJ     = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SRC))
+
 V        ?= @
 
 ifeq ($(ARCH), x86_64)
@@ -28,22 +34,22 @@ endif
 
 $(shell mkdir -p $(BUILD_DIR))
 
-.PHONY: all clean run iso
+.PHONY: all xcompiler iso run clean
 
-all: $(KERNEL)
+all: xcompiler $(KERNEL)
 
+$(KERNEL): $(ARCH_SRC)/linker.ld $(C_OBJ) $(ASM_OBJ)
+	echo $(C_SRC)
+#	$(V)$(CC) $(LDFLAGS) -T $(KER_SRC)/linker.ld $(C_OBJ) $(ASM_OBJ) -o $@
 
-$(KERNEL): $(SRC_DIR)/linker.ld $(C_OBJ) $(ASM_OBJ)
-	$(V)$(CC) $(LDFLAGS) -T $(SRC_DIR)/linker.ld $(C_OBJ) $(ASM_OBJ) -o $@
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	$(V)$(CC) -c $(CFLAGS) -o $@ $^
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.asm
+$(BUILD_DIR)/%.o: $(ARCH_SRC)/%.asm
 	$(V)$(AS) $(ASFLAGS) -o $@ $^
 
-clean:
-	$(V)rm -rf ./build
+$(BUILD_DIR)/%.o: $(ARCH_SRC)/%.c
+	$(V)$(CC) -c $(CFLAGS) -o $@ $^
+
+xcompiler:
+	$(V)bash scripts/xcompiler.sh &> /dev/null
 
 iso: $(ISO)
 $(ISO): $(KERNEL) $(GRUB_CFG)
@@ -69,3 +75,6 @@ run-vb: $(ISO)
 	$(V)$(VBM)  storagectl $(NAME) --name "IDE Controller" --add ide
 	$(V)$(VBM)  storageattach $(NAME) --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $(ISO)
 	$(V)$(VB) --startvm $(NAME) --dbg
+
+clean:
+	$(V)rm -rf ./build

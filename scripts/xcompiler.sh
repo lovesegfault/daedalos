@@ -17,8 +17,10 @@ if [ "$(uname)" == "Darwin" ]; then
     exit
 fi
 
+
+
 rm -rf xcompiler/build
-rm -rf xcompiler/$ARCH
+#rm -rf xcompiler/$ARCH
 mkdir -p xcompiler/build
 mkdir -p xcompiler/$ARCH
 
@@ -46,26 +48,33 @@ if [[ ! -d xcompiler/src ]]; then
 
     cd - || exit
 fi
+if [[ ! -d xcompiler/$ARCH/bin ]]; then
+	echo 'Building binutils'
+	mkdir xcompiler/build/binutils && cd "$_" || exit
+	../../src/$BINUTILS/configure --target=$ARCH --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
+	make -j$CCOUNT
+	make install
+	cd - || exit
 
-echo 'Building binutils'
-mkdir xcompiler/build/binutils && cd "$_" || exit
-../../src/$BINUTILS/configure --target=$ARCH --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
-make -j$CCOUNT
-make install
-cd - || exit
-
-echo 'Building GCC'
-mkdir xcompiler/build/gcc && cd "$_" || exit
-../../src/$GCC/configure --target=$ARCH --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers
-make all-gcc -j$CCOUNT
-make all-target-libgcc -j$CCOUNT
-make install-gcc
-make install-target-libgcc
-cd - || exit
-
+	echo 'Building GCC'
+	mkdir xcompiler/build/gcc && cd "$_" || exit
+	../../src/$GCC/configure --target=$ARCH --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers
+	make all-gcc -j$CCOUNT
+	make all-target-libgcc -j$CCOUNT
+	make install-gcc
+	make install-target-libgcc
+	cd - || exit
+else
+	echo "It seems you already have a working Cross Compiler."
+fi
+if [ $SHELL == "/usr/bin/bash" ]||[ $SHELL == "/bin/bash" ];then
+	echo "It seems like you're using bash. To add the binaries to your PATH run"
+	echo 'export PATH=$PATH':$PREFIX/bin
+fi
 if [ $SHELL == "/usr/bin/fish" ];then
 	echo "It seems like you're using fish. To add the binaries to your PATH run"
 	echo 'set -gx PATH $PATH' $PREFIX/bin
 fi
+
 
 echo 'Done'
