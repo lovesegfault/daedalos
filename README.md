@@ -6,6 +6,12 @@ DaedalOS is a simple, minimalistic OS written in C. The aim of this is to
 create a small, self-written kernel that can run basic programs and, one day,
 graphical applications. This project is for the x86_64 architecture.
 
+## Current Status
+
+Currently I'm slowly implementing a better build system, but since that is not
+ready yet it means building is broken right now. I'm slowly moving forward to 
+a more robust build process.
+
 ## Resources
 
 This is a list of tutorials, articles, manuals and so on that are
