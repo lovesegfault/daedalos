@@ -64,6 +64,8 @@ if [[ ! -d xcompiler/$ARCH/bin ]]; then
 	make install-gcc
 	make install-target-libgcc
 	cd - || exit
+
+	rm -rf xcompiler/build
 else
 	echo "It seems you already have a working Cross Compiler."
 fi

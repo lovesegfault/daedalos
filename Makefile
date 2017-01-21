@@ -39,7 +39,6 @@ $(shell mkdir -p $(BUILD_DIR))
 all: xcompiler $(KERNEL)
 
 $(KERNEL): $(ARCH_SRC)/linker.ld $(C_OBJ) $(ASM_OBJ)
-	echo $(C_SRC)
 #	$(V)$(CC) $(LDFLAGS) -T $(KER_SRC)/linker.ld $(C_OBJ) $(ASM_OBJ) -o $@
 
 $(BUILD_DIR)/%.o: $(ARCH_SRC)/%.asm
@@ -50,6 +49,7 @@ $(BUILD_DIR)/%.o: $(ARCH_SRC)/%.c
 
 xcompiler:
 	$(V)bash scripts/xcompiler.sh &> /dev/null
+	@echo $(SYSROOT)
 
 iso: $(ISO)
 $(ISO): $(KERNEL) $(GRUB_CFG)
