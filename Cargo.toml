@@ -1,0 +1,10 @@
+[package]
+name = "daedalos"
+version = "0.1.0"
+authors = ["Bernardo Meurer <meurerbernardo@gmail.com>"]
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+rlibc = "1.0"
