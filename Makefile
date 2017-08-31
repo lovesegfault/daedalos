@@ -2,7 +2,8 @@ arch ?= x86_64
 kernel := build/kernel-$(arch).bin
 iso := build/os-$(arch).iso
 target ?= $(arch)-daedalos
-rust_os := target/$(target)/debug/libdaedalos.a
+type ?= release
+rust_os := target/$(target)/$(type)/libdaedalos.a
 
 linker_script := src/arch/$(arch)/linker.ld
 grub_cfg := src/arch/$(arch)/grub.cfg
@@ -32,7 +33,7 @@ $(kernel): kernel $(rust_os) $(assembly_object_files) $(linker_script)
 	@ld -n --gc-sections -T $(linker_script) -o $(kernel) $(assembly_object_files) $(rust_os)
 
 kernel:
-	@rustup run nightly xargo build --target $(target)
+	@rustup run nightly xargo build --release --target $(target)
 
 # compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
