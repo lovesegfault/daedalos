@@ -26,5 +26,5 @@ release:
 bootloader:
 	bootimage build
 
-run:
+run: check build
 	qemu-system-x86_64 -curses -drive format=raw,file=./target/x86_64-daedalos/debug/bootimage-daedalos.bin

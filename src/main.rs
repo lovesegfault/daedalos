@@ -2,15 +2,16 @@
 #![no_main]
 
 use core::panic::PanicInfo;
-use daedalos::utils::print::*;
+use daedalos::println;
 
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
     loop {}
 }
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    print_vga(b"Hello, world!");
+    println!("Hello, world!");
     loop {}
 }
