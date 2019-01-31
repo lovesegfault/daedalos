@@ -19,6 +19,9 @@ features = ["spin_no_std"]
 [package.metadata.bootimage]
 default-target = "x86_64-daedalos.json"
 
+[features]
+integration-test = []
+
 [profile.dev]
 opt-level = 2
 lto = false
