@@ -5,6 +5,11 @@ authors = ["Bernardo Meurer <meurerbernardo@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+bootloader = "0.3.12"
+
+
+[package.metadata.bootimage]
+default-target = "x86_64-daedalos.json"
 
 [profile.dev]
 opt-level = 2
