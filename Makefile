@@ -1,4 +1,5 @@
 all: check build test
+iso: check build test release bootloader
 
 TARGET="x86_64-daedalos.json"
 
@@ -21,3 +22,9 @@ build:
 
 release:
 	cargo xbuild --release --target=${TARGET}
+
+bootloader:
+	bootimage build
+
+run:
+	qemu-system-x86_64 -curses -drive format=raw,file=./target/x86_64-daedalos/debug/bootimage-daedalos.bin
