@@ -1,6 +1,6 @@
-use core::fmt;
-use crate::vga::VGA_BUFFER;
 use crate::vga::color::ColorCode;
+use crate::vga::VGA_BUFFER;
+use core::fmt;
 use volatile::Volatile;
 
 pub const BUFFER_HEIGHT: usize = 25;
@@ -15,7 +15,7 @@ struct ScreenChar {
 
 impl ScreenChar {
     pub fn new(ascii_char: u8, color: ColorCode) -> Self {
-        ScreenChar {ascii_char, color}
+        ScreenChar { ascii_char, color }
     }
 }
 
@@ -57,7 +57,7 @@ impl Writer {
                 let color = self.color;
                 self.buffer.chars[row][col].write(ScreenChar {
                     ascii_char: byte,
-                    color
+                    color,
                 });
                 self.column += 1;
             }
