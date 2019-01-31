@@ -106,8 +106,8 @@ mod test {
 
     fn construct_buffer() -> Buffer {
         Buffer {
-        chars: array_init(|_| array_init(|_| Volatile::new(ScreenChar::default()))),
-    }
+            chars: array_init(|_| array_init(|_| Volatile::new(ScreenChar::default()))),
+        }
     }
 
     fn construct_writer() -> Writer {
@@ -115,7 +115,7 @@ mod test {
         Writer {
             column: 0,
             color: ColorCode::default(),
-            buffer: Box::leak(Box::new(buffer))
+            buffer: Box::leak(Box::new(buffer)),
         }
     }
 
