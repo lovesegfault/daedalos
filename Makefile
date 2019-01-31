@@ -1,8 +1,9 @@
 all: check build test
 
+TARGET="x86_64-daedalos.json"
+
 check:
 	cargo check
-
 fmt:
 	cargo fmt
 
@@ -12,5 +13,11 @@ lint:
 test:
 	cargo test
 
+clean:
+	cargo clean
+
 build:
-	cargo rustc -- -Z pre-link-arg=-nostartfiles
+	cargo xbuild --target=${TARGET}
+
+release:
+	cargo xbuild --release --target=${TARGET}
