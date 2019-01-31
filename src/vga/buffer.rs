@@ -8,7 +8,7 @@ pub const BUFFER_WIDTH: usize = 80;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(C)]
-struct ScreenChar {
+pub struct ScreenChar {
     ascii_char: u8,
     color: ColorCode,
 }
@@ -25,7 +25,7 @@ impl Default for ScreenChar {
     }
 }
 
-struct Buffer {
+pub struct Buffer {
     chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT],
 }
 
@@ -94,5 +94,50 @@ impl fmt::Write for Writer {
             }
         }
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use array_init::array_init;
+    use std::boxed::Box;
+    use volatile::Volatile;
+
+    fn construct_buffer() -> Buffer {
+        Buffer {
+        chars: array_init(|_| array_init(|_| Volatile::new(ScreenChar::default()))),
+    }
+    }
+
+    fn construct_writer() -> Writer {
+        let buffer = construct_buffer();
+        Writer {
+            column: 0,
+            color: ColorCode::default(),
+            buffer: Box::leak(Box::new(buffer))
+        }
+    }
+
+    #[test]
+    fn write_byte() {
+        let mut writer = construct_writer();
+        writer.write_byte(b'X');
+        writer.write_byte(b'Y');
+
+        for (i, row) in writer.buffer.chars.iter().enumerate() {
+            for (j, screen_char) in row.iter().enumerate() {
+                let screen_char = screen_char.read();
+                if i == BUFFER_HEIGHT - 1 && j == 0 {
+                    assert_eq!(screen_char.ascii_char, b'X');
+                    assert_eq!(screen_char.color, writer.color);
+                } else if i == BUFFER_HEIGHT - 1 && j == 1 {
+                    assert_eq!(screen_char.ascii_char, b'Y');
+                    assert_eq!(screen_char.color, writer.color);
+                } else {
+                    assert_eq!(screen_char, ScreenChar::default());
+                }
+            }
+        }
     }
 }

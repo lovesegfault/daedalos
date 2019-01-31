@@ -5,6 +5,7 @@ authors = ["Bernardo Meurer <meurerbernardo@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+array-init = "0.0.4"
 bootloader = "0.3.12"
 spin = "0.5.0"
 volatile = "0.2.6"
