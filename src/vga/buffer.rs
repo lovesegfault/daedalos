@@ -140,4 +140,34 @@ mod test {
             }
         }
     }
+
+    #[test]
+    fn write_formatted() {
+        use core::fmt::Write;
+
+        let mut writer = construct_writer();
+        writeln!(&mut writer, "a").unwrap();
+        writeln!(&mut writer, "b{}", "c").unwrap();
+
+        for (i, row) in writer.buffer.chars.iter().enumerate() {
+            for (j, screen_char) in row.iter().enumerate() {
+                let screen_char = screen_char.read();
+                if i == BUFFER_HEIGHT - 3 && j == 0 {
+                    assert_eq!(screen_char.ascii_char, b'a');
+                    assert_eq!(screen_char.color, writer.color);
+                } else if i == BUFFER_HEIGHT - 2 && j == 0 {
+                    assert_eq!(screen_char.ascii_char, b'b');
+                    assert_eq!(screen_char.color, writer.color);
+                } else if i == BUFFER_HEIGHT - 2 && j == 1 {
+                    assert_eq!(screen_char.ascii_char, b'c');
+                    assert_eq!(screen_char.color, writer.color);
+                } else if i >= BUFFER_HEIGHT - 2 {
+                    assert_eq!(screen_char.ascii_char, b' ');
+                    assert_eq!(screen_char.color, writer.color);
+                } else {
+                    assert_eq!(screen_char, ScreenChar::default());
+                }
+            }
+        }
+    }
 }
