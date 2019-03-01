@@ -1,6 +1,9 @@
 use lazy_static::lazy_static;
 use spin::Mutex;
 use uart_16550::SerialPort;
+use x86_64::instructions::interrupts;
+
+use core::fmt::Write;
 
 pub mod qemu;
 
@@ -14,11 +17,12 @@ lazy_static! {
 
 #[doc(hidden)]
 pub fn _print(args: ::core::fmt::Arguments) {
-    use core::fmt::Write;
-    SERIAL1
-        .lock()
-        .write_fmt(args)
-        .expect("Printing to serial failed");
+    interrupts::without_interrupts(|| {
+        SERIAL1
+            .lock()
+            .write_fmt(args)
+            .expect("Printing to serial failed");
+    });
 }
 
 /// Prints to the host through the serial interface.
