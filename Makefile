@@ -1,36 +1,36 @@
-all: check build test
-iso: check build test release bootloader
+all: release
+iso: bootloader
 
 TARGET="x86_64-daedalos.json"
-
-check:
-	cargo check
 
 fmt:
 	cargo fmt
 
-lint:
-	cargo clippy
-
-test: build
-	cargo test
-	bootimage test
-
 clean:
 	cargo clean
 
-build: check
+check:
+	cargo check
+
+lint: check
+	cargo clippy
+
+test: lint
+	cargo test
+	bootimage test
+
+build: test
 	cargo xbuild --target=${TARGET}
 
-release:
+release: test
 	cargo xbuild --release --target=${TARGET}
 
-bootloader: build
+bootloader: release
 	bootimage build
 
 run: bootloader
 	qemu-system-x86_64 \
-    -drive format=raw,file=target/x86_64-daedalos/debug/bootimage-daedalos.bin \
+    -drive format=raw,file=target/x86_64-daedalos/release/bootimage-daedalos.bin \
     -serial mon:stdio \
     -device isa-debug-exit,iobase=0xf4,iosize=0x04 \
     -display none\
