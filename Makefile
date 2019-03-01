@@ -1,41 +1,37 @@
-arch ?= x86_64
-kernel := build/kernel-$(arch).bin
-iso := build/os-$(arch).iso
-target ?= $(arch)-daedalos
-type ?= release
-rust_os := target/$(target)/$(type)/libdaedalos.a
+all: release
+iso: bootloader
 
-linker_script := src/arch/$(arch)/linker.ld
-grub_cfg := src/arch/$(arch)/grub.cfg
-assembly_source_files := $(wildcard src/arch/$(arch)/*.asm)
-assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, 	build/arch/$(arch)/%.o, $(assembly_source_files))
+TARGET="x86_64-daedalos.json"
 
-.PHONY: all clean run iso kernel
-
-all: $(kernel)
+fmt:
+	cargo fmt
 
 clean:
-	@rm -r build
+	cargo clean
 
-run: $(iso)
-	@qemu-system-x86_64 -cdrom $(iso)
+check:
+	cargo check
 
-iso: $(iso)
+lint: check
+	cargo xclippy --target=${TARGET}
 
-$(iso): $(kernel) $(grub_cfg)
-	@mkdir -p build/isofiles/boot/grub
-	@cp $(kernel) build/isofiles/boot/kernel.bin
-	@cp $(grub_cfg) build/isofiles/boot/grub
-	@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
-	@rm -r build/isofiles
+test: lint
+	cargo test
+	bootimage test
 
-$(kernel): kernel $(rust_os) $(assembly_object_files) $(linker_script)
-	@ld -n --gc-sections -T $(linker_script) -o $(kernel) $(assembly_object_files) $(rust_os)
+build: test
+	cargo xbuild --target=${TARGET}
 
-kernel:
-	@rustup run nightly xargo build --release --target $(target)
+release: test
+	cargo xbuild --release --target=${TARGET}
 
-# compile assembly files
-build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
-	@mkdir -p $(shell dirname $@)
-	@nasm -felf64 $< -o $@
+bootloader: release
+	bootimage build --release
+
+run: bootloader
+	qemu-system-x86_64 \
+    -drive format=raw,file=target/x86_64-daedalos/release/bootimage-daedalos.bin \
+    -serial mon:stdio \
+    -device isa-debug-exit,iobase=0xf4,iosize=0x04 \
+    -display none\
+	|| true
