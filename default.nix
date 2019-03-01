@@ -2,7 +2,8 @@ let
   moz_overlay = import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz);
   nixpkgs = import <nixpkgs> { overlays = [ moz_overlay ]; };
 
-  rustNightly = (nixpkgs.rustChannelOf { date = "2019-02-27"; channel = "nightly"; }).rust.override {
+  originalRustNightly = nixpkgs.rustChannelOf { date = "2019-02-27"; channel = "nightly"; };
+  newRawRust = originalRustNightly.rust.override {
     extensions = [
       "rust-src"
       "rls-preview"
@@ -10,14 +11,20 @@ let
       "rustfmt-preview"
     ];
   };
+  rustNightly = {
+    inherit (originalRustNightly) cargo;
+    rustc = newRawRust // { src = originalRustNightly.rust-src; };
+  };
+  nightlyRustPlatform = nixpkgs.makeRustPlatform rustNightly;
 
-in
-  with nixpkgs;
+  daedalos = with nixpkgs;
   stdenv.mkDerivation {
     name = "daedalos";
     buildInputs = [
-      (rustNightly.callPackage ./bootimage.nix {})
-      rustNightly
+      (nixpkgs.callPackage ./bootimage.nix { rustPlatform = nightlyRustPlatform; })
+      rustNightly.rustc
     ];
-  }
-
+  };
+in {
+  inherit daedalos nixpkgs rustNightly originalRustNightly newRawRust nightlyRustPlatform;
+}
