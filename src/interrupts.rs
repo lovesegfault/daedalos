@@ -1,6 +1,4 @@
-#![allow(clippy::empty_loop)]
-
-use crate::{gdt, print, println};
+use crate::{gdt, print, println, hlt_loop};
 
 use lazy_static::lazy_static;
 use pic8259_simple::ChainedPics;
@@ -39,7 +37,7 @@ extern "x86-interrupt" fn double_fault_handler(
     _error_code: u64,
 ) {
     println!("EXCEPTION: DOUBLE FAULT\n{:#?}", stack_frame);
-    loop {}
+   hlt_loop();
 }
 
 #[derive(Debug, Clone, Copy)]

@@ -1,9 +1,8 @@
 #![no_std]
 #![cfg_attr(not(test), no_main)]
 #![cfg_attr(test, allow(dead_code, unused_macros, unused_imports))]
-#![allow(clippy::empty_loop)]
 
-use daedalos::{serial::qemu::exit_qemu, serial_println};
+use daedalos::{serial::qemu::exit_qemu, serial_println, hlt_loop};
 
 use core::panic::PanicInfo;
 
@@ -13,7 +12,8 @@ pub extern "C" fn _start() -> ! {
     // TEST HERE
 
     unsafe { exit_qemu() };
-    loop {}
+    hlt_loop();
+
 }
 
 #[cfg(not(test))]
@@ -26,5 +26,5 @@ fn panic(info: &PanicInfo) -> ! {
     unsafe {
         exit_qemu();
     }
-    loop {}
+    hlt_loop();
 }

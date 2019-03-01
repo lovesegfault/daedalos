@@ -2,9 +2,8 @@
 #![no_std]
 #![cfg_attr(not(test), no_main)]
 #![cfg_attr(test, allow(dead_code, unused_macros, unused_imports))]
-#![allow(clippy::empty_loop)]
 
-use daedalos::{serial::qemu::exit_qemu, serial_println, gdt};
+use daedalos::{serial::qemu::exit_qemu, serial_println, gdt, hlt_loop};
 
 use lazy_static::lazy_static;
 
@@ -30,7 +29,7 @@ pub extern "C" fn _start() -> ! {
         exit_qemu();
     }
 
-    loop {}
+   hlt_loop();
 }
 
 #[cfg(not(test))]
@@ -43,7 +42,7 @@ fn panic(info: &PanicInfo) -> ! {
     unsafe {
         exit_qemu();
     }
-    loop {}
+    hlt_loop();
 }
 
 use x86_64::structures::idt::{ExceptionStackFrame, InterruptDescriptorTable};
@@ -74,5 +73,5 @@ extern "x86-interrupt" fn double_fault_handler(
     unsafe {
         exit_qemu();
     }
-    loop {}
+    hlt_loop();
 }
