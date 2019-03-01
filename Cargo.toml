@@ -23,10 +23,6 @@ features = ["spin_no_std"]
 integration-test = []
 
 [profile.dev]
-opt-level = 2
-lto = false
-debug = true
-codegen-units = 4
 panic = "abort"
 
 [profile.release]

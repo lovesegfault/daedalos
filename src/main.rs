@@ -1,6 +1,7 @@
 #![cfg(not(test))]
 #![no_std]
 #![no_main]
+#![allow(clippy::empty_loop)]
 
 use daedalos::{self, println};
 
@@ -15,11 +16,20 @@ fn panic(info: &PanicInfo) -> ! {
 #[cfg(not(feature = "integration-test"))]
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    println!("Hello, world!");
+    println!("Starting");
 
+    daedalos::gdt::init();
     daedalos::interrupts::init_idt();
 
-    x86_64::instructions::int3();
+
+   #[allow(unconditional_recursion)]
+    fn stack_overflow() {
+        stack_overflow(); // for each recursion, the return address is pushed
+    }
+
+    // trigger a stack overflow
+    stack_overflow();
+
 
     println!("No crash");
     // unsafe { daedalos::serial::qemu::exit_qemu(); }

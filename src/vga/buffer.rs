@@ -147,7 +147,8 @@ mod test {
 
         let mut writer = construct_writer();
         writeln!(&mut writer, "a").unwrap();
-        writeln!(&mut writer, "b{}", "c").unwrap();
+        let c = 'c';
+        writeln!(&mut writer, "b{}", c).unwrap();
 
         for (i, row) in writer.buffer.chars.iter().enumerate() {
             for (j, screen_char) in row.iter().enumerate() {
