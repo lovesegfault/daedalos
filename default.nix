@@ -16,7 +16,7 @@ in
   stdenv.mkDerivation {
     name = "daedalos";
     buildInputs = [
-      (rustNightly.callPackage ./bootimage.nix {})
+      (nixpkgs.callPackage ./bootimage.nix {})
       rustNightly
     ];
   }
