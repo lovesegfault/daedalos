@@ -1,6 +1,6 @@
 <img src=http://i.imgur.com/rX08oeR.jpg width=400 align=right>
 
-# DaedalOS
+# DaedalOS [![Build Status](https://travis-ci.org/bemeurer/daedalos.svg?branch=master)](https://travis-ci.org/bemeurer/daedalos)
 
 DaedalOS is a simple, minimalistic OS written in Rust. The aim of this is to
 create a small, self-written kernel that can run basic programs and, one day,
