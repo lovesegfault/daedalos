@@ -1,0 +1,26 @@
+os:
+  - linux
+
+dist: xenial
+
+addons:
+    apt:
+        packages:
+            - qemu
+git:
+    submodules: false
+
+language: nix
+
+script:
+    - nix-shell
+    - make test
+    - make release
+
+branches:
+    only:
+        - master
+
+notifications:
+    email:
+        on_success: never
