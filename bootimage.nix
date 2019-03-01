@@ -15,7 +15,6 @@ buildRustPackage rec {
     sha256 = "1bd0a8p53fr8yrzalsikfvglkjrphini02mia1xy6z5hr77gm8p3";
   };
 
-  # Some tests fail, but Travis ensures a proper build
-  doCheck = true;
+  doCheck = false;
 }
 
