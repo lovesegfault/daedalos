@@ -13,7 +13,7 @@ check:
 	cargo check
 
 lint: check
-	cargo clippy
+	cargo xclippy --target=${TARGET}
 
 test: lint
 	cargo test
@@ -26,7 +26,7 @@ release: test
 	cargo xbuild --release --target=${TARGET}
 
 bootloader: release
-	bootimage build
+	bootimage build --release
 
 run: bootloader
 	qemu-system-x86_64 \

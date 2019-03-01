@@ -22,6 +22,7 @@ let
     name = "daedalos";
     buildInputs = [
       (nixpkgs.callPackage ./bootimage.nix { rustPlatform = nightlyRustPlatform; })
+      (nixpkgs.callPackage ./cargo-xbuild.nix { rustPlatform = nightlyRustPlatform; })
       rustNightly.rustc
     ];
   };
