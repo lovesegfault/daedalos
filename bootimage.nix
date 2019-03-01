@@ -12,7 +12,7 @@ buildRustPackage rec {
     owner = "rust-osdev";
     repo = "bootimage";
     rev = "v${version}";
-    sha256 = "87ed26cf6f711fe4cbf695b19364cd67aad407ec";
+    sha256 = "08zzn3a32xfjkmpawcjppn1mr26ws3iv40cckiz8ldz4qc8y9gdh";
   };
 
   # Some tests fail, but Travis ensures a proper build
