@@ -24,8 +24,10 @@ let
       (nixpkgs.callPackage ./bootimage.nix { rustPlatform = nightlyRustPlatform; })
       (nixpkgs.callPackage ./cargo-xbuild.nix { rustPlatform = nightlyRustPlatform; })
       rustNightly.rustc
+      rustNightly.cargo
+      qemu_kvm
     ];
   };
 in {
-  inherit daedalos nixpkgs rustNightly originalRustNightly newRawRust nightlyRustPlatform;
+  inherit daedalos nixpkgs rustNightly;
 }
