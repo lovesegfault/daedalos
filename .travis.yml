@@ -13,9 +13,12 @@ git:
 language: nix
 
 script:
-    - nix-shell
-    - make test
-    - make release
+    - nix-shell --run 'make test'
+
+cache:
+    timeout: 10000
+    directories:
+        - /nix/store
 
 branches:
     only:
