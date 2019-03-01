@@ -33,5 +33,4 @@ run: bootloader
     -drive format=raw,file=target/x86_64-daedalos/release/bootimage-daedalos.bin \
     -serial mon:stdio \
     -device isa-debug-exit,iobase=0xf4,iosize=0x04 \
-    -display none\
 	|| true

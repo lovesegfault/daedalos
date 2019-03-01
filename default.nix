@@ -25,7 +25,7 @@ let
       (nixpkgs.callPackage ./cargo-xbuild.nix { rustPlatform = nightlyRustPlatform; })
       rustNightly.rustc
       rustNightly.cargo
-      qemu_kvm
+      # qemu_kvm
     ];
   };
 in {
