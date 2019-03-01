@@ -25,7 +25,17 @@ let
       (nixpkgs.callPackage ./cargo-xbuild.nix { rustPlatform = nightlyRustPlatform; })
       rustNightly.rustc
       rustNightly.cargo
-      # qemu_kvm
+      (qemu.override { numaSupport = false;
+                       pulseSupport = false;
+                       sdlSupport = false;
+                       gtkSupport = false;
+                       vncSupport = false;
+                       spiceSupport = false;
+                       usbredirSupport = false;
+                       xenSupport = false;
+                       smbdSupport = false;
+                       hostCpuOnly = true;
+                     })
     ];
   };
 in {
