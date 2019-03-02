@@ -26,7 +26,7 @@ pub extern "C" fn _start() -> ! {
 
 
 
-    println!(">>>> Shutting Down");
     // unsafe { daedalos::serial::qemu::exit_qemu(); }
     daedalos::hlt_loop();
+    println!(">>>> Shutting Down");
 }

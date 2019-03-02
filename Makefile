@@ -31,5 +31,5 @@ run: bootloader
     -drive format=raw,file=target/x86_64-daedalos/debug/bootimage-daedalos.bin \
     -serial mon:stdio \
     -device isa-debug-exit,iobase=0xf4,iosize=0x04 \
-	-curses \
+	-display gtk \
 	|| true
