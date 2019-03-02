@@ -7,16 +7,15 @@ addons:
     apt:
         packages:
             - qemu
-git:
-    submodules: false
 
 language: nix
+nix: 2.1.3
 
 script:
     - nix-shell --run 'make test'
 
 cache:
-    timeout: 10000
+    timeout: 1000
     directories:
         - /nix/store
 
