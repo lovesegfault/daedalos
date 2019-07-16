@@ -2,7 +2,7 @@ let
   moz_overlay = import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz);
   nixpkgs = import <nixpkgs> { overlays = [ moz_overlay ]; };
 
-  originalRustNightly = nixpkgs.rustChannelOf { date = "2019-02-27"; channel = "nightly"; };
+  originalRustNightly = nixpkgs.rustChannelOf { date = "2019-07-15"; channel = "nightly"; };
   newRawRust = originalRustNightly.rust.override {
     extensions = [
       "rust-src"
