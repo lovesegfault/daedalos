@@ -18,7 +18,7 @@ script:
     - cargo install bootimage cargo-xbuild
     - cargo xcheck
     - cargo xclippy
-    - carbo xbuild
+    - cargo xbuild
 
 cache:
     timeout: 1000
