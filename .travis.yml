@@ -1,5 +1,5 @@
 os:
-  - linux
+    - linux
 
 dist: xenial
 
@@ -8,8 +8,16 @@ addons:
         packages:
             - qemu
 
-language: nix
-nix: 2.1.3
+language: rust
+rust:
+    - stable
+    - beta
+    - nightly
+
+matrix:
+    allow_failures:
+        - rust: nightly
+    fast_finish: true
 
 script:
     #- nix-shell --run 'make test'
