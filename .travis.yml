@@ -12,7 +12,11 @@ language: nix
 nix: 2.1.3
 
 script:
-    - nix-shell --run 'make test'
+    #- nix-shell --run 'make test'
+    - cargo install bootimage cargo-xbuild
+    - cargo xcheck
+    - cargo xclippy
+    - carbo xbuild
 
 cache:
     timeout: 1000
