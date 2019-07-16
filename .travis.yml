@@ -10,14 +10,7 @@ addons:
 
 language: rust
 rust:
-    - stable
-    - beta
     - nightly
-
-matrix:
-    allow_failures:
-        - rust: nightly
-    fast_finish: true
 
 script:
     #- nix-shell --run 'make test'
