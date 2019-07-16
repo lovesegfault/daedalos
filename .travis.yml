@@ -14,6 +14,7 @@ rust:
 
 script:
     #- nix-shell --run 'make test'
+    - rustup component add rust-src clippy
     - cargo install bootimage cargo-xbuild
     - cargo xcheck
     - cargo xclippy
