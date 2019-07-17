@@ -8,9 +8,8 @@ graphical applications. This project is for the x86_64 architecture.
 
 ## Current Status
 
-Currently I'm slowly implementing a better build system, but since that is not
-ready yet it means building is broken right now. I'm slowly moving forward to 
-a more robust build process.
+The new build system is done, so now I'm back implementing the kernel. Working
+on CPU exceptions currently
 
 ## Resources
 
@@ -24,13 +23,26 @@ references to the development of this project.
 -   [ToaruOS][toaruos]
 -   [Intel x86 manual][intel]
 
-## Running
+## Building
+First make sure you have QEMU available, then:
 
-TODO
+```shell
+$ cargo install bootimage cargo-xbuild
+$ cargo xbuild
+```
+
+## Testing
+```shell
+$ cargo xtest
+```
+
+## Running
+```shell
+$cargo xrun
+```
 
 ## TODO
 
--   Better build system
 -   Finish Meaty Skeleton
 
 [rust]: os.phil-opp.com/
