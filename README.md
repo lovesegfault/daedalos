@@ -38,7 +38,7 @@ $ cargo xtest
 
 ## Running
 ```shell
-$cargo xrun
+$ cargo xrun
 ```
 
 ## TODO
