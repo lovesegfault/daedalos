@@ -14,12 +14,12 @@ rust:
     - nightly
 
 script:
-    #- nix-shell --run 'make test'
     - rustup component add rust-src clippy
     - cargo install bootimage cargo-xbuild
     - cargo xcheck
     - cargo xclippy
     - cargo xbuild
+    - cargo xtest
 
 cache:
     timeout: 1000
