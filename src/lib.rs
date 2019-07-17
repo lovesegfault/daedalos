@@ -4,11 +4,24 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
+use core::panic::PanicInfo;
+
 pub mod qemu;
 pub mod serial;
 pub mod vga;
 
-use core::panic::PanicInfo;
+#[cfg(not(test))]
+#[panic_handler]
+fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
+    loop {}
+}
+
+#[cfg(test)]
+#[panic_handler]
+pub fn panic(info: &PanicInfo) -> ! {
+    test_panic(info)
+}
 
 pub fn test_panic(info: &PanicInfo) -> ! {
     sprintln!("[failed]\n");
@@ -26,21 +39,9 @@ pub fn test_runner(tests: &[&dyn Fn()]) {
 }
 
 #[cfg(test)]
+#[allow(unused)]
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     test_main();
     loop {}
-}
-
-#[cfg(not(test))]
-#[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    println!("{}", info);
-    loop {}
-}
-
-#[cfg(test)]
-#[panic_handler]
-pub fn panic(info: &PanicInfo) -> ! {
-    test_panic(info)
 }
