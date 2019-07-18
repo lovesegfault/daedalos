@@ -19,7 +19,7 @@ fn panic(info: &PanicInfo) -> ! {
 
 #[cfg(test)]
 #[panic_handler]
-pub fn panic(info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
     test_panic(info)
 }
 

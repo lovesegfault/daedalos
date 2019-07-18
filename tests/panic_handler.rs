@@ -1,17 +1,21 @@
 #![no_std]
 #![no_main]
+#![feature(custom_test_frameworks)]
 #![feature(panic_info_message)]
+#![test_runner(daedalos::test_runner)]
+#![reexport_test_harness_main = "test_main"]
 
 use core::fmt::{self, Write};
+use core::panic::PanicInfo;
 use daedalos::qemu::{exit_qemu, QemuExitCode};
 use daedalos::{sprint, sprintln};
 
 const MESSAGE: &str = "Example panic message from panic_handler test";
-const PANIC_LINE: u32 = 15; // adjust this when moving the `panic!` call
+const PANIC_LINE: u32 = 14; // adjust this when moving the `panic!` call
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    serial_print!("panic_handler... ");
+    sprint!("panic_handler... ");
     panic!(MESSAGE); // must be in line `PANIC_LINE`
 }
 
@@ -20,14 +24,14 @@ fn panic(info: &PanicInfo) -> ! {
     check_location(info);
     check_message(info);
 
-    serial_println!("[ok]");
+    sprintln!("[ok]");
     exit_qemu(QemuExitCode::Success);
     loop {}
 }
 
 fn fail(error: &str) -> ! {
-    serial_println!("[failed]");
-    serial_println!("{}", error);
+    sprintln!("[failed]");
+    sprintln!("{}", error);
     exit_qemu(QemuExitCode::Failed);
     loop {}
 }
