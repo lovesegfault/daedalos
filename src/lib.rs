@@ -23,7 +23,8 @@ fn panic(info: &PanicInfo) -> ! {
     test_panic(info)
 }
 
-pub fn test_panic(info: &PanicInfo) -> ! {
+#[allow(dead_code)]
+fn test_panic(info: &PanicInfo) -> ! {
     sprintln!("[failed]\n");
     sprintln!("Error: {}\n", info);
     qemu::exit_qemu(qemu::QemuExitCode::Failed);
