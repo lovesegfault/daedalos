@@ -1,18 +1,15 @@
 #![no_std]
 #![no_main]
-#![feature(custom_test_frameworks)]
-#![test_runner(daedalos::test_runner)]
-#![reexport_test_harness_main = "test_main"]
 
-use daedalos::println;
+use core::panic::PanicInfo;
 
-#[allow(unused)]
+/// This function is called on panic.
+#[panic_handler]
+fn panic(_info: &PanicInfo) -> ! {
+    loop {}
+}
+
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    println!("Hello World{}", "!");
-
-    #[cfg(test)]
-    test_main();
-
     loop {}
 }
