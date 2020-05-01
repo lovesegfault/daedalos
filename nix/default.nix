@@ -1,4 +1,4 @@
-{}:
+{ }:
 let
   sources = import ./sources.nix;
   overlays = [
@@ -19,7 +19,13 @@ let
         rustc = rustFull;
       }
     )
-    (self: super: { crate2nix = self.callPackage sources.crate2nix {}; })
+    (self: super: { naersk = self.callPackage sources.naersk {}; })
+    (self: super: {
+      bootimage = self.naersk.buildPackage {
+        name = "bootimage";
+        src = sources.bootimage;
+      };
+    })
   ];
   pkgs = import <nixpkgs> { inherit overlays; };
 in

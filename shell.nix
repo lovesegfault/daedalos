@@ -8,6 +8,7 @@ pkgs.mkShell {
     llvmPackages_latest.clang
     llvmPackages_latest.lld
 
+    bootimage
     cargo-edit
     cargo-tree
     cargo-xbuild
