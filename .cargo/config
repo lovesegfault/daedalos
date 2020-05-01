@@ -1,4 +1,5 @@
 [build]
+rustflags = ["-C", "linker=clang", "-C", "link-arg=-fuse-ld=lld", "-C", "link-arg=-nostartfiles"]
 target = "x86_64-daedalos.json"
 
 [target.'cfg(target_os = "none")']
