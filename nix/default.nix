@@ -4,9 +4,9 @@ let
   overlays = [
     (import sources.nixpkgs-mozilla)
     (
-      self: super: rec {
+      self: super: {
         rustChannel = self.rustChannelOf { channel = "nightly"; };
-        rustFull = (rustChannel.rust.override {
+        rustFull = (self.rustChannel.rust.override {
           extensions = [
             "clippy-preview"
             "rustfmt-preview"
@@ -15,8 +15,8 @@ let
             "rust-src"
           ];
         });
-        cargo = rustFull;
-        rustc = rustFull;
+        cargo = self.rustFull;
+        rustc = self.rustFull;
       }
     )
     (self: super: { naersk = self.callPackage sources.naersk { }; })
