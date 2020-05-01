@@ -20,12 +20,16 @@ let
       }
     )
     (self: super: { crate2nix = self.callPackage (sources.crate2nix + "/tools.nix") { }; })
-    (self: super: rec {
-      bootimage = (self.callPackage
-        (self.crate2nix.generatedCargoNix {
-          name = "bootimage";
-          src = sources.bootimage;
-        }) { }).rootCrate.build;
+    (self: super: {
+      bootimage =
+        let
+          generated = self.crate2nix.generatedCargoNix {
+            name = "bootimage";
+            src = sources.bootimage;
+          };
+          bootimage = self.callPackage generated { };
+        in
+        bootimage.rootCrate.build;
     })
   ];
   pkgs = import <nixpkgs> { inherit overlays; };
