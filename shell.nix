@@ -10,6 +10,7 @@ pkgs.mkShell {
 
     cargo-edit
     cargo-tree
+    cargo-xbuild
     qemu_kvm
     rust-analyzer
 

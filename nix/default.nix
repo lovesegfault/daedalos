@@ -4,20 +4,19 @@ let
   overlays = [
     (import sources.nixpkgs-mozilla)
     (
-      self: super: {
-        rustChannel = self.rustChannelOf { channel = "stable"; };
-        rustFull = self.rustChannel.rust.override {
+      self: super: rec {
+        rustChannel = self.rustChannelOf { channel = "nightly"; };
+        rustFull = (rustChannel.rust.override {
           extensions = [
             "clippy-preview"
-            "rls-preview"
             "rustfmt-preview"
             "rust-analysis"
             "rust-std"
             "rust-src"
           ];
-        };
-        cargo = self.rustChannel.rust;
-        rustc = self.rustChannel.rust;
+        });
+        cargo = rustFull;
+        rustc = rustFull;
       }
     )
     (self: super: { crate2nix = self.callPackage sources.crate2nix {}; })
