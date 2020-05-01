@@ -9,10 +9,11 @@ let
         rustFull = (self.rustChannel.rust.override {
           extensions = [
             "clippy-preview"
-            "rustfmt-preview"
+            "rls-preview"
             "rust-analysis"
-            "rust-std"
             "rust-src"
+            "rust-std"
+            "rustfmt-preview"
           ];
         });
         cargo = self.rustFull;
