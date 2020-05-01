@@ -1,4 +1,4 @@
-{}:
+{ pkgs ? import <nixpkgs> }:
 let
   sources = import ./sources.nix;
   overlays = [
@@ -32,6 +32,5 @@ let
         bootimage.rootCrate.build;
     })
   ];
-  pkgs = import <nixpkgs> { inherit overlays; };
 in
-pkgs
+pkgs { inherit overlays; }
