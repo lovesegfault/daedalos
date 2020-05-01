@@ -1,4 +1,3 @@
-pub const VGA_BUFFER: *mut u8 = 0xb8000 as *mut u8;
 
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
