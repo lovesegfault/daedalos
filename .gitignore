@@ -6,6 +6,10 @@
 ### Rust ###
 /target
 
+### Nix ###
+result
+result-*
+*.drv
 
 ### Others ###
 *.iso
