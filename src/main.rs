@@ -13,12 +13,6 @@ fn panic(_info: &PanicInfo) -> ! {
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    static HELLO: &[u8] = b"Hello, world!";
-    for (i, &byte) in HELLO.iter().enumerate() {
-        unsafe {
-            *vga::VGA_BUFFER.offset(i as isize * 2) = byte;
-            *vga::VGA_BUFFER.offset(i as isize * 2 + 1) = 0xb;
-        }
-    }
+    vga::print_something();
     loop {}
 }
