@@ -20,8 +20,9 @@ let
       }
     )
     (self: super: { naersk = self.callPackage sources.naersk {}; })
+    (self: super: { crate2nix = self.callPackage (sources.crate2nix + "/tools.nix") {}; })
     (self: super: {
-      bootimage = self.naersk.buildPackage {
+      bootimage = self.crate2nix.generatedCargoNix {
         name = "bootimage";
         src = sources.bootimage;
       };

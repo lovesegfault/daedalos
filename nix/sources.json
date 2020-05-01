@@ -11,16 +11,16 @@
         "url": "https://github.com/rust-osdev/bootimage/archive/64652dcbeb625da7eae4ca9995cf89969fad9702.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
-    "naersk": {
+    "crate2nix": {
         "branch": "master",
-        "description": "Build rust crates in Nix. No configuration, no code generation, no IFD. Sandbox friendly.",
+        "description": "nix build file generator for rust crates",
         "homepage": "",
-        "owner": "nmattia",
-        "repo": "naersk",
-        "rev": "a82fd7dc31a58c462b6dfa9d9d886fa2cc75dfd4",
-        "sha256": "00bjwir52y6jbf0b22qy9qxramw35k5fc7kp9hymr1zgpmw9kbwg",
+        "owner": "kolloch",
+        "repo": "crate2nix",
+        "rev": "a96a37b8edd7cb4c5ee5eb1dcb78aea8c3424943",
+        "sha256": "0w1srxwkf0l37npyr6lm9w0m11vasv5n1vbnw4w7rabny8sm1v6y",
         "type": "tarball",
-        "url": "https://github.com/nmattia/naersk/archive/a82fd7dc31a58c462b6dfa9d9d886fa2cc75dfd4.tar.gz",
+        "url": "https://github.com/kolloch/crate2nix/archive/a96a37b8edd7cb4c5ee5eb1dcb78aea8c3424943.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-mozilla": {
