@@ -19,7 +19,6 @@ let
         rustc = self.rustFull;
       }
     )
-    (self: super: { naersk = self.callPackage sources.naersk { }; })
     (self: super: { crate2nix = self.callPackage (sources.crate2nix + "/tools.nix") { }; })
     (self: super: rec {
       bootimage = (self.callPackage
