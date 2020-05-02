@@ -5,7 +5,10 @@ let
     (import sources.nixpkgs-mozilla)
     (
       self: super: {
-        rustChannel = self.rustChannelOf { channel = "nightly"; };
+        rustChannel = self.rustChannelOf {
+          rustToolchain = ../rust-toolchain;
+          sha256 = "11i2had5n9nz2ywaglg6j3vb9b2ncxpk5r83lbkwgvpj9q93afri";
+        };
         rustFull = (self.rustChannel.rust.override {
           extensions = [
             "clippy-preview"
