@@ -27,7 +27,7 @@ pub fn test_panic_handler(info: &core::panic::PanicInfo) -> ! {
 
 #[cfg(test)]
 #[no_mangle]
-pub extern "C" fn _start() -> ! {
+pub extern fn _start() -> ! {
     init();
     test_main();
     hlt_loop()
@@ -35,15 +35,13 @@ pub extern "C" fn _start() -> ! {
 
 #[cfg(test)]
 #[panic_handler]
-fn panic(info: &core::panic::PanicInfo) -> ! {
-    test_panic_handler(info)
-}
+fn panic(info: &core::panic::PanicInfo) -> ! { test_panic_handler(info) }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
 pub enum QemuExitCode {
     Success = 0x10,
-    Failed = 0x11,
+    Failed  = 0x11,
 }
 
 pub fn exit_qemu(exit_code: QemuExitCode) {

@@ -7,7 +7,7 @@
 use daedalos::println;
 
 #[no_mangle]
-pub extern "C" fn _start() -> ! {
+pub extern fn _start() -> ! {
     println!("Hello World{}", "!");
 
     daedalos::init();
@@ -37,6 +37,4 @@ fn panic(info: &core::panic::PanicInfo) -> ! {
 
 #[cfg(test)]
 #[panic_handler]
-fn panic(info: &core::panic::PanicInfo) -> ! {
-    daedalos::test_panic_handler(info)
-}
+fn panic(info: &core::panic::PanicInfo) -> ! { daedalos::test_panic_handler(info) }

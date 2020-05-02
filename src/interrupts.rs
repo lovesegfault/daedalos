@@ -1,12 +1,8 @@
-use crate::gdt;
-use crate::hlt_loop;
-use crate::print;
-use crate::println;
+use crate::{gdt, hlt_loop, print, println};
 use lazy_static::lazy_static;
 use pic8259_simple::ChainedPics;
 use spin;
-use x86_64::structures::idt::PageFaultErrorCode;
-use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
+use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
 extern "x86-interrupt" fn breakpoint_handler(stack_frame: &mut InterruptStackFrame) {
     println!("EXCEPTION: BREAKPOINT\n{:#?}", stack_frame);
@@ -86,9 +82,7 @@ lazy_static! {
     };
 }
 
-pub fn init_idt() {
-    IDT.load();
-}
+pub fn init_idt() { IDT.load(); }
 
 pub const PIC_1_OFFSET: u8 = 32;
 pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
@@ -104,13 +98,9 @@ pub enum InterruptIndex {
 }
 
 impl InterruptIndex {
-    fn as_u8(self) -> u8 {
-        self as u8
-    }
+    fn as_u8(self) -> u8 { self as u8 }
 
-    fn as_usize(self) -> usize {
-        usize::from(self.as_u8())
-    }
+    fn as_usize(self) -> usize { usize::from(self.as_u8()) }
 }
 
 #[cfg(test)]

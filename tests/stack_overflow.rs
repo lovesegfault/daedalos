@@ -4,8 +4,7 @@
 
 use daedalos::{exit_qemu, serial_println, QemuExitCode};
 use lazy_static::lazy_static;
-use x86_64::structures::idt::InterruptDescriptorTable;
-use x86_64::structures::idt::InterruptStackFrame;
+use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
 
 extern "x86-interrupt" fn test_double_fault_handler(
     _stack_frame: &mut InterruptStackFrame,
@@ -29,17 +28,13 @@ lazy_static! {
     };
 }
 
-pub fn init_test_idt() {
-    TEST_IDT.load();
-}
+pub fn init_test_idt() { TEST_IDT.load(); }
 
 #[panic_handler]
-fn panic(info: &core::panic::PanicInfo) -> ! {
-    daedalos::test_panic_handler(info)
-}
+fn panic(info: &core::panic::PanicInfo) -> ! { daedalos::test_panic_handler(info) }
 
 #[no_mangle]
-pub extern "C" fn _start() -> ! {
+pub extern fn _start() -> ! {
     daedalos::serial_print!("stack_overflow... ");
 
     daedalos::gdt::init();
@@ -52,6 +47,4 @@ pub extern "C" fn _start() -> ! {
 }
 
 #[allow(unconditional_recursion)]
-fn stack_overflow() {
-    stack_overflow();
-}
+fn stack_overflow() { stack_overflow(); }

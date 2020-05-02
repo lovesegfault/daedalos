@@ -10,22 +10,22 @@ const BUFFER_WIDTH: usize = 80;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 enum Color {
-    Black = 0,
-    Blue = 1,
-    Green = 2,
-    Cyan = 3,
-    Red = 4,
-    Magenta = 5,
-    Brown = 6,
-    LightGray = 7,
-    DarkGray = 8,
-    LightBlue = 9,
+    Black      = 0,
+    Blue       = 1,
+    Green      = 2,
+    Cyan       = 3,
+    Red        = 4,
+    Magenta    = 5,
+    Brown      = 6,
+    LightGray  = 7,
+    DarkGray   = 8,
+    LightBlue  = 9,
     LightGreen = 10,
-    LightCyan = 11,
-    LightRed = 12,
-    Pink = 13,
-    Yellow = 14,
-    White = 15,
+    LightCyan  = 11,
+    LightRed   = 12,
+    Pink       = 13,
+    Yellow     = 14,
+    White      = 15,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -42,7 +42,7 @@ impl ColorCode {
 #[repr(C)]
 struct ScreenChar {
     ascii_character: u8,
-    color_code: ColorCode,
+    color_code:      ColorCode,
 }
 
 #[repr(transparent)]
@@ -52,8 +52,8 @@ struct Buffer {
 
 pub struct Writer {
     column_position: usize,
-    color_code: ColorCode,
-    buffer: &'static mut Buffer,
+    color_code:      ColorCode,
+    buffer:          &'static mut Buffer,
 }
 
 impl Writer {
@@ -92,7 +92,7 @@ impl Writer {
     fn clear_row(&mut self, row: usize) {
         let blank = ScreenChar {
             ascii_character: b' ',
-            color_code: self.color_code,
+            color_code:      self.color_code,
         };
         for col in 0..BUFFER_WIDTH {
             self.buffer.chars[row][col].write(blank);
@@ -121,8 +121,8 @@ impl fmt::Write for Writer {
 lazy_static! {
     pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
         column_position: 0,
-        color_code: ColorCode::new(Color::Yellow, Color::Black),
-        buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
+        color_code:      ColorCode::new(Color::Yellow, Color::Black),
+        buffer:          unsafe { &mut *(0xb8000 as *mut Buffer) },
     });
 }
 

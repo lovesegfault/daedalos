@@ -7,12 +7,10 @@
 use daedalos::{println, serial_print, serial_println};
 
 #[panic_handler]
-fn panic(info: &core::panic::PanicInfo) -> ! {
-    daedalos::test_panic_handler(info)
-}
+fn panic(info: &core::panic::PanicInfo) -> ! { daedalos::test_panic_handler(info) }
 
 #[no_mangle]
-pub extern "C" fn _start() -> ! {
+pub extern fn _start() -> ! {
     test_main();
 
     loop {}
