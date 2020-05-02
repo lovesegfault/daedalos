@@ -8,7 +8,6 @@ edition = "2018"
 run-command = [
     "qemu-system-x86_64",
     "-drive", "format=raw,file={}",
-    "-enable-kvm",
 ]
 run-args = ["-display", "curses"]
 test-args = [
