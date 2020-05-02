@@ -27,7 +27,6 @@ pub extern fn _start() -> ! {
     daedalos::hlt_loop()
 }
 
-/// This function is called on panic.
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &core::panic::PanicInfo) -> ! {
