@@ -10,12 +10,14 @@ use daedalos::println;
 pub extern "C" fn _start() -> ! {
     println!("Hello World{}", "!");
 
-    daedalos::init(); // new
+    daedalos::init();
 
-    // invoke a breakpoint exception
-    x86_64::instructions::interrupts::int3(); // new
+    fn stack_overflow() {
+        stack_overflow();
+    }
 
-    // as before
+    stack_overflow();
+
     #[cfg(test)]
     test_main();
 
