@@ -29,11 +29,12 @@ harness = false
 
 [dependencies]
 bootloader = "0.9.2"
+lazy_static = { version = "1.4.0", features = [ "spin_no_std" ] }
+pic8259_simple = "0.1.1"
 spin = "0.5.2"
 uart_16550 = "0.2.5"
 volatile = "0.2.6"
 x86_64 = "0.10.1"
-lazy_static = { version = "1.4.0", features = [ "spin_no_std" ] }
 
 [profile.dev]
 panic = "abort"

@@ -19,11 +19,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd5c4922d54a9033cfdf75d4fd23945461e9d2c1d979c8f5b237e5471f11dddc"
 
 [[package]]
+name = "cpuio"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "22b8e308ccfc5acf3b82f79c0eac444cf6114cb2ac67a230ca6c177210068daa"
+
+[[package]]
 name = "daedalos"
 version = "0.1.0"
 dependencies = [
  "bootloader",
  "lazy_static",
+ "pic8259_simple",
  "spin",
  "uart_16550",
  "volatile",
@@ -37,6 +44,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 dependencies = [
  "spin",
+]
+
+[[package]]
+name = "pic8259_simple"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dc64b2fd10828da8521b6cdabe0679385d7d2a3a6d4c336b819d1fa31ba35c72"
+dependencies = [
+ "cpuio",
 ]
 
 [[package]]
