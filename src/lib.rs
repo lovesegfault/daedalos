@@ -7,6 +7,7 @@
 
 pub mod gdt;
 pub mod interrupts;
+pub mod memory;
 pub mod serial;
 pub mod vga;
 
@@ -26,8 +27,10 @@ pub fn test_panic_handler(info: &core::panic::PanicInfo) -> ! {
 }
 
 #[cfg(test)]
-#[no_mangle]
-pub extern fn _start() -> ! {
+bootloader::entry_point!(test_kernel_main);
+
+#[cfg(test)]
+pub extern fn test_kernel_main(_boot_info: &'static bootloader::BootInfo) -> ! {
     init();
     test_main();
     hlt_loop()
