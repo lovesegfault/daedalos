@@ -3,10 +3,13 @@ use lazy_static::lazy_static;
 use spin::Mutex;
 use volatile::Volatile;
 
+const BUFFER_HEIGHT: usize = 25;
+const BUFFER_WIDTH: usize = 80;
+
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
-pub enum Color {
+enum Color {
     Black = 0,
     Blue = 1,
     Green = 2,
@@ -41,9 +44,6 @@ struct ScreenChar {
     ascii_character: u8,
     color_code: ColorCode,
 }
-
-const BUFFER_HEIGHT: usize = 25;
-const BUFFER_WIDTH: usize = 80;
 
 #[repr(transparent)]
 struct Buffer {
@@ -99,7 +99,7 @@ impl Writer {
         }
     }
 
-    pub fn write_string(&mut self, s: &str) {
+    fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
             match byte {
                 // printable ASCII byte or newline
