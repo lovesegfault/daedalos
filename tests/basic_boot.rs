@@ -13,7 +13,7 @@ fn panic(info: &core::panic::PanicInfo) -> ! { daedalos::test_panic_handler(info
 pub extern fn _start() -> ! {
     test_main();
 
-    loop {}
+    daedalos::hlt_loop();
 }
 
 #[test_case]

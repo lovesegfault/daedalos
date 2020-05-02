@@ -7,7 +7,7 @@ use daedalos::{exit_qemu, serial_print, serial_println, QemuExitCode};
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     serial_println!("[ok]");
     exit_qemu(QemuExitCode::Success);
-    loop {}
+    daedalos::hlt_loop();
 }
 
 #[no_mangle]
@@ -15,7 +15,7 @@ pub extern fn _start() -> ! {
     should_fail();
     serial_println!("[test did not panic]");
     exit_qemu(QemuExitCode::Failed);
-    loop {}
+    daedalos::hlt_loop();
 }
 
 fn should_fail() {

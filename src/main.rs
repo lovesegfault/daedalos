@@ -30,8 +30,8 @@ pub extern fn _start() -> ! {
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &core::panic::PanicInfo) -> ! {
-    println!("{}", info);
-    loop {}
+    daedalos::println!("{}", info);
+    daedalos::hlt_loop()
 }
 
 #[cfg(test)]
