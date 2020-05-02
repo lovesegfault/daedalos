@@ -12,8 +12,7 @@ fn kernel_main(boot_info: &'static bootloader::BootInfo) -> ! {
     use daedalos::memory;
     use x86_64::{structures::paging::MapperAllSizes, VirtAddr};
 
-    println!("Hello World{}", "!");
-
+    println!("DaedalOS");
     daedalos::init();
 
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
@@ -32,7 +31,6 @@ fn kernel_main(boot_info: &'static bootloader::BootInfo) -> ! {
 
     for &address in &addresses {
         let virt = VirtAddr::new(address);
-        // new: use the `mapper.translate_addr` method
         let phys = mapper.translate_addr(virt);
         println!("{:?} -> {:?}", virt, phys);
     }
