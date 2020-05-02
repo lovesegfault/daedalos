@@ -9,9 +9,6 @@ use daedalos::println;
 bootloader::entry_point!(kernel_main);
 
 fn kernel_main(boot_info: &'static bootloader::BootInfo) -> ! {
-    use daedalos::{memory, memory::BootInfoFrameAllocator};
-    use x86_64::{structures::paging::Page, VirtAddr};
-
     println!("DaedalOS");
     daedalos::init();
 
