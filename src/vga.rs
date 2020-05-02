@@ -146,7 +146,7 @@ pub fn _print(args: fmt::Arguments) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::*;
+    use crate::{serial_print, serial_println};
 
     #[test_case]
     fn test_println_output() {
