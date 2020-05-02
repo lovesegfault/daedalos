@@ -11,7 +11,12 @@ run-command = [
     "-enable-kvm",
 ]
 run-args = ["-display", "curses"]
-test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04"]
+test-args = [
+    "-device", "isa-debug-exit,iobase=0xf4,iosize=0x04",
+    "-serial", "stdio",
+    "-display", "none"
+]
+test-success-exit-code = 33
 
 [dependencies]
 bootloader = "0.9.2"
