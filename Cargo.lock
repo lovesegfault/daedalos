@@ -30,6 +30,7 @@ version = "0.1.0"
 dependencies = [
  "bootloader",
  "lazy_static",
+ "linked_list_allocator",
  "pc-keyboard",
  "pic8259_simple",
  "spin",
@@ -48,6 +49,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "linked_list_allocator"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d6b60501dd4c850950bb43f970d544f6ce04e0ca021da2db2538fbe9d923f19e"
+dependencies = [
+ "spinning_top",
+]
+
+[[package]]
+name = "lock_api"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c4da24a77a3d8a6d4862d95f72e6fdb9c09a643ecdb402d754004a557f2bec75"
+dependencies = [
+ "scopeguard",
+]
+
+[[package]]
 name = "pc-keyboard"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -63,10 +82,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "scopeguard"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d29ab0c6d3fc0ee92fe66e2d99f700eab17a8d57d1c1d3b748380fb20baa78cd"
+
+[[package]]
 name = "spin"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+
+[[package]]
+name = "spinning_top"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32d801a3a53bcf5071f85fef8d5cab9e5f638fc5580a37e6eb7aba4b37438d24"
+dependencies = [
+ "lock_api",
+]
 
 [[package]]
 name = "uart_16550"

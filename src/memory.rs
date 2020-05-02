@@ -16,6 +16,7 @@ pub struct BootInfoFrameAllocator {
 impl BootInfoFrameAllocator {
     /// Create a FrameAllocator from the passed memory map.
     ///
+    /// # Safety
     /// This function is unsafe because the caller must guarantee that the
     /// passed memory map is valid. The main requirement is that all frames
     /// that are marked as `USABLE` in it are really unused.
@@ -36,9 +37,7 @@ impl BootInfoFrameAllocator {
         // transform to an iterator of frame start addresses
         let frame_addresses = addr_ranges.flat_map(|r| r.step_by(4096));
         // create `PhysFrame` types from the start addresses
-        let frames = frame_addresses.map(|addr| PhysFrame::containing_address(PhysAddr::new(addr)));
-        // we know that the frames are really unused
-        frames
+        frame_addresses.map(|addr| PhysFrame::containing_address(PhysAddr::new(addr)))
     }
 }
 
