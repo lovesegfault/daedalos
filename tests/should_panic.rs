@@ -1,12 +1,12 @@
 #![no_main]
 #![no_std]
 
-use daedalos::{exit_qemu, serial_print, serial_println, QemuExitCode};
+use daedalos::{qemu, serial_print, serial_println};
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     serial_println!("[ok]");
-    exit_qemu(QemuExitCode::Success);
+    qemu::exit(qemu::ExitCode::Success);
     daedalos::hlt_loop();
 }
 
@@ -14,7 +14,7 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
 pub extern fn _start() -> ! {
     should_fail();
     serial_println!("[test did not panic]");
-    exit_qemu(QemuExitCode::Failed);
+    qemu::exit(qemu::ExitCode::Failed);
     daedalos::hlt_loop();
 }
 

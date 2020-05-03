@@ -2,7 +2,7 @@
 #![no_main]
 #![no_std]
 
-use daedalos::{exit_qemu, serial_println, QemuExitCode};
+use daedalos::{qemu, serial_println};
 use lazy_static::lazy_static;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
 
@@ -11,7 +11,7 @@ extern "x86-interrupt" fn test_double_fault_handler(
     _error_code: u64,
 ) -> ! {
     serial_println!("[ok]");
-    exit_qemu(QemuExitCode::Success);
+    qemu::exit(qemu::ExitCode::Success);
     daedalos::hlt_loop();
 }
 
