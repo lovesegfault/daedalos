@@ -4,8 +4,6 @@
 #![test_runner(daedalos::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-extern crate alloc;
-
 use daedalos::println;
 
 bootloader::entry_point!(kernel_main);
