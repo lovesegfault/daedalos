@@ -14,6 +14,7 @@ pub mod interrupts;
 pub mod memory;
 pub mod qemu;
 pub mod serial;
+pub mod task;
 pub mod vga;
 
 pub fn init(boot_info: &'static bootloader::BootInfo) {
