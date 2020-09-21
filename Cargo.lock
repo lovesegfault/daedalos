@@ -114,9 +114,9 @@ dependencies = [
 
 [[package]]
 name = "volatile"
-version = "0.3.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f8e76fae08f03f96e166d2dfda232190638c10e0383841252416f9cfe2ae60e6"
+checksum = "e000a949a4c792c46417a637bdf18ed39cfc70184318f609979e0fa03ab334c8"
 
 [[package]]
 name = "x86_64"
