@@ -13,7 +13,7 @@ pic8259_simple = "0.2.0"
 spin = "0.7.1"
 uart_16550 = "0.2.11"
 volatile = "0.4.3"
-x86_64 = "0.13.1"
+x86_64 = "0.13.2"
 
 [profile.dev]
 panic = "abort"
