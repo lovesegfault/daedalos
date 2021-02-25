@@ -14,9 +14,9 @@ checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 
 [[package]]
 name = "bootloader"
-version = "0.9.13"
+version = "0.9.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2af5cd7262000d814c16b79fd3c9addc94e445a7fe045cfc8996d2fce5ef9b0c"
+checksum = "77b333a502e4d2381a65a0b238957bfebe8d24d726a618e4152d6b068d46acde"
 
 [[package]]
 name = "cpuio"
