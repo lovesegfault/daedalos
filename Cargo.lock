@@ -33,7 +33,7 @@ dependencies = [
  "linked_list_allocator",
  "pc-keyboard",
  "pic8259_simple",
- "spin 0.9.2",
+ "spin 0.9.6",
  "uart_16550",
  "volatile",
  "x86_64",
@@ -95,9 +95,9 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
 name = "spin"
-version = "0.9.2"
+version = "0.9.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "511254be0c5bcf062b019a6c89c01a664aa359ded62f78aa72c6fc137c0590e5"
+checksum = "b5d6e0250b93c8427a177b849d144a96d5acc57006149479403d7861ab721e34"
 dependencies = [
  "lock_api",
 ]
